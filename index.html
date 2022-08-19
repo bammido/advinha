@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Montserrat&display=swap" rel="stylesheet">
     <title>Document</title>
+    <script defer src="./script.js"></script>
     <style>
         *{
             padding: 0;
@@ -72,8 +73,8 @@
             color: #32BF00;
         }
         #numero {
-            height: 100px;
             margin-bottom: 50px;
+            display: flex;
         }
         #nova-partida button{
             height: 42px;
@@ -148,7 +149,60 @@
                 font-size: 24px;
                 line-height: 29px;
                 }
-            }
+        }
+        .digito{
+            position: relative;
+            height: 100px;
+            margin-right: 10px;
+        }
+
+        .led{
+            background-color: lightgray;
+            height: 15px;
+            width: 50px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+        #led0{
+        }
+        #led1{
+            position: absolute;
+            left: -25px;
+            top: 23px;
+            transform: rotate(-90deg);
+
+        }
+        #led2{
+            position: absolute;
+            transform: rotate(90deg);
+            right: -25px;
+            top: 23px;
+        }
+        #led3{
+            border-radius: 35px;
+            position: absolute;
+            top: 53px;
+
+        }
+        #led4{
+            transform: rotate(-90deg);
+            position: absolute;
+            top: 81px;
+            left: -25px;
+        }
+        #led5{
+            transform: rotate(90deg);
+            position: absolute;
+            top: 81px;
+            right: -25px;
+
+        }
+        #led6{
+            position: absolute;
+            transform: rotate(180deg);
+            bottom: -21px;
+
+        }
         
     </style>
 </head>
@@ -159,14 +213,24 @@
             <div id="mensagem">
                 <span>Você acertou!!!!</span>
             </div>
-            <div id="numero">teste</div>
+            <div id="numero">
+                <!-- <div class="digito">
+                    <div class="led" id="led0"></div>
+                    <div class="led" id="led1"></div>
+                    <div class="led" id="led2"></div>
+                    <div class="led" id="led3"></div>
+                    <div class="led" id="led4"></div>
+                    <div class="led" id="led5"></div>
+                    <div class="led" id="led6"></div>
+                </div> -->
+            </div>
             <div id="nova-partida">
                 <button>NOVA PARTIDA</button>
             </div>
         </div>
         <div id="entrada-de-dados">
             <input type="text" id="input" placeholder="digite o palpite">
-            <button id="enviar">ENVIAR</button>
+            <button id="enviar" onclick="desenhaDigito()">ENVIAR</button>
         </div>
     </section>
 </body>
