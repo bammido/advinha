@@ -47,6 +47,12 @@ async function pegaNumeroParaAdvinhar()  {
 async function carregaJogo (){
     numeroParaAdvinhar = await pegaNumeroParaAdvinhar().then( res => res.value? res.value : res)
     console.log(numeroParaAdvinhar)
+    
+    //colocando numero para testar
+    const numero = document.getElementById('numero')
+    numero.dataset.numeroParaAdvinhar = `${numeroParaAdvinhar.StatusCode? numeroParaAdvinhar.StatusCode : numeroParaAdvinhar}`
+    
+    console.log(numero.dataset.numeroParaAdvinhar)
     if(numeroParaAdvinhar.StatusCode){
         const {mensagem , cor} = resultados.error
         desenhaNumero(`${numeroParaAdvinhar.StatusCode}`, cor)
