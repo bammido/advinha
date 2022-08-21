@@ -24,6 +24,10 @@
         button{
             cursor: pointer;
         }
+        *:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         section{
             height: 100%;
             display: flex;
@@ -31,6 +35,8 @@
             align-items: center;
         }
         h1{
+            transition: 500ms;
+
             font-family: 'Montserrat';
             font-size: 36px;
             line-height: 44px;
@@ -59,10 +65,10 @@
             margin-bottom: 75px;
         }
         #mensagem{
+            margin-right: 30px;
             height: 35px;
         }
         #mensagem span{
-            margin: auto auto;
             font-family: 'Montserrat';
             font-style: normal;
             font-weight: 700;
@@ -74,14 +80,22 @@
         }
         #numero {
             margin-bottom: 50px;
+            width: 100%;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             height: 100px;
-
+            
         }
-        #nova-partida button{
+        #nova-partida{
             height: 42px;
             width: 130px;
+            margin-right: 30px;
+        }
+        #nova-partida-botao{
+            display: none;
+
+            height: 100%;
+            width: 100%;
 
             font-family: 'Roboto';
             font-style: normal;
@@ -149,13 +163,14 @@
         }
         @media screen and (max-width: 450px){
                 h1{
+                transition: 500ms;
                 font-size: 24px;
                 line-height: 29px;
                 }
         }
         .digito{
-            position: relative;
             margin-right: 30px;
+            position: relative;
             height: 100%;
         }
 
@@ -214,26 +229,16 @@
         <h1>QUAL É O NÚMERO?</h1>
         <div id="resultado">
             <div id="mensagem">
-                <span>Você acertou!!!!</span>
+                <span id="mensagem-span"></span>
             </div>
-            <div id="numero">
-                <div class="digito">
-                    <div class="led" id="led0"></div>
-                    <div class="led" id="led1"></div>
-                    <div class="led" id="led2"></div>
-                    <div class="led" id="led3"></div>
-                    <div class="led" id="led4"></div>
-                    <div class="led" id="led5"></div>
-                    <div class="led" id="led6"></div>
-                </div>
-            </div>
+            <div id="numero"></div>
             <div id="nova-partida">
-                <button>NOVA PARTIDA</button>
+                <button id="nova-partida-botao" onclick="novaPartida()">NOVA PARTIDA</button>
             </div>
         </div>
         <form onsubmit="form(event)" id="entrada-de-dados">
-            <input required pattern="[0-9]{1,3}" title="número até 3 dígitos" type="text" id="input" placeholder="digite o palpite" autofocus>
-            <button type="submit" id="enviar" >ENVIAR</button>
+            <input disabled required pattern="[0-9]{1,3}" title="digite um número positivo não nulo menor que 300" type="text" id="input" placeholder="digite o palpite" autofocus>
+            <button disabled type="submit" id="enviar" >ENVIAR</button>
         </form>
     </section>
 </body>
