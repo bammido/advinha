@@ -28,13 +28,28 @@ const resultados =  {
     }
 }
 
-const numeroParaAdvinhar = pegaNumeroParaAdvinhar()
+window.addEventListener('load', () => carregaJogo() )
+let numeroParaAdvinhar ;
+
+
 async function pegaNumeroParaAdvinhar()  {
-    const response =  await fetch('https://us-central1-ss-devops.cloudfunctions.net/rand?min=1&max=300').then( res => res.json()).catch( err => err)
-    const {value} = response
-    if(!value){
+    
+    const response = await fetch('https://us-central1-ss-devops.cloudfunctions.net/rand?min=1&max=300')
+        .then( res => {
+            return res.json()
+        })
+        .catch ( error =>  error )
+    console.log(response)
+    return response
+    
+}
+
+async function carregaJogo (){
+    numeroParaAdvinhar = await pegaNumeroParaAdvinhar().then( res => res.value? res.value : res)
+    console.log(numeroParaAdvinhar)
+    if(numeroParaAdvinhar.StatusCode){
         const {mensagem , cor} = resultados.error
-        desenhaNumero(`${response.StatusCode}`, cor)
+        desenhaNumero(`${numeroParaAdvinhar.StatusCode}`, cor)
         escreveMensagem(mensagem, cor)
         habilitaNovaPartida()
         desabilitaBotaoEnviar()
@@ -42,18 +57,17 @@ async function pegaNumeroParaAdvinhar()  {
         return false
     }
     iniciaJogo()
-    desenhaNumero()
-    return value
+    desenhaDigito()
 }
-
-console.log(numeroParaAdvinhar)
 
 function form (e) {
     e.preventDefault()
+    console.log(numeroParaAdvinhar)
 
     const numero = document.getElementById('input').value
     if(!verificaNumero(numero)) return false
     
+    limpaDigitos()
     
     const {mensagem, cor } = verificaResultado(numero)
     
@@ -83,7 +97,6 @@ function desenhaDigito(entrada, cor) {
 }
 
 function desenhaNumero (entrada, cor) {
-    limpaDigitos()
 
     const numeros = entrada
     
@@ -106,6 +119,7 @@ function limpaDigitos () {
 }
 
 function verificaResultado(entrada){
+    console.log(numeroParaAdvinhar)
     const entradaNumber = Number(entrada)
     if(numeroParaAdvinhar !== entradaNumber){
         const {cor, maior, menor} = resultados.errou
@@ -146,6 +160,7 @@ function verificaNumero(entrada) {
     window.alert('digite um número menor que 300!')
     return false
 }
+
 function escreveMensagem(msg, cor){
     const mensagemSpan = document.getElementById('mensagem-span')
     mensagemSpan.innerHTML = msg
@@ -166,8 +181,8 @@ function desabilitaInput(){
     input.disabled  = true  
 }
 function novaPartida(){
-    desenhaNumero()
-    iniciaJogo()
+    limpaDigitos()
+    carregaJogo()
 }
 function iniciaJogo(){
     const botaoEnviar = document.getElementById('enviar')
@@ -175,6 +190,4 @@ function iniciaJogo(){
 
     const input = document.getElementById('input')
     input.disabled  = false  
-
 }
-desenhaDigito()
