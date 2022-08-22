@@ -97,7 +97,7 @@ function desenhaDigito(entrada, cor) {
         numeroDigital.ids.includes(i)? led.style.backgroundColor = cor? cor : '#000' : led.style.backgroundColor = 'lightblue'
         digito.append(led)
     }
-    
+    console.log(digito.getAttribute('name'))
     numeroDiv.append(digito)
     
 }
