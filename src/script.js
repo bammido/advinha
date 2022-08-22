@@ -48,11 +48,6 @@ async function carregaJogo (){
     numeroParaAdvinhar = await pegaNumeroParaAdvinhar().then( res => res.value? res.value : res)
     console.log(numeroParaAdvinhar)
     
-    //colocando numero para testar
-    const numero = document.getElementById('numero')
-    numero.dataset.numeroParaAdvinhar = `${numeroParaAdvinhar.StatusCode? numeroParaAdvinhar.StatusCode : numeroParaAdvinhar}`
-    
-    console.log(numero.dataset.numeroParaAdvinhar)
     if(numeroParaAdvinhar.StatusCode){
         const {mensagem , cor} = resultados.error
         desenhaNumero(`${numeroParaAdvinhar.StatusCode}`, cor)
@@ -64,13 +59,18 @@ async function carregaJogo (){
     }
     iniciaJogo()
     desenhaDigito()
+    //colocando numero para testar
+    const numero = document.getElementById('numero')
+    numero.dataset.teste = `${numeroParaAdvinhar}`
 }
 
 function form (e) {
     e.preventDefault()
+
     console.log(numeroParaAdvinhar)
 
-    const numero = document.getElementById('input').value
+    const numero = `${Number(document.getElementById('input').value)}`
+    console.log(numero)
     if(!verificaNumero(numero)) return false
     
     limpaDigitos()
@@ -86,7 +86,7 @@ function desenhaDigito(entrada, cor) {
     const numeroDiv = document.getElementById('numero')
     const digito = document.createElement('div')
     digito.setAttribute('class', 'digito')
-    digito.setAttribute('name', `digito${entrada}`)
+    digito.setAttribute('name', `digito${numeroEntrada}`)
     
     const numeroDigital = numerosDigitais.find(({numero}) => numero === Number(numeroEntrada))
     
@@ -125,7 +125,7 @@ function limpaDigitos () {
 }
 
 function verificaResultado(entrada){
-    console.log(numeroParaAdvinhar)
+    console.log('verificanumero',numeroParaAdvinhar)
     const entradaNumber = Number(entrada)
     if(numeroParaAdvinhar !== entradaNumber){
         const {cor, maior, menor} = resultados.errou
@@ -147,23 +147,30 @@ function verificaNumero(entrada) {
         const entradaArray = entrada.split('')
         if(entradaArray[0]==='0' && entradaArray[1]==='0' && entradaArray[2]==='0'){
             window.alert('digite um número maior que 0 !')
+            document.getElementById('input').value = ''
             return false
         }
         if(entradaArray[0]==='0' && entradaArray[1]==='0'){
             if(entradaArray.length===2){
                 window.alert('digite um número maior que 0 !')
+                document.getElementById('input').value = ''
                 return false
-            }else entradaArray.splice(0,2)
+            }
         } 
         if(entradaArray[0]==='0') {
             if(entradaArray.length===1){
                 window.alert('digite um número maior que 0 !')
+                document.getElementById('input').value = ''
                 return false
-            }else entradaArray.splice(0,1)
+            }
         }
         return entradaArray
     }
+    
     window.alert('digite um número menor que 300!')
+    
+    // limpa input
+    document.getElementById('input').value = ''
     return false
 }
 
@@ -196,4 +203,26 @@ function iniciaJogo(){
 
     const input = document.getElementById('input')
     input.disabled  = false  
+}
+
+function modoTeste () {
+    const inputTeste = document.getElementById('input-teste')
+    numeroParaAdvinhar = Number(inputTeste.value)
+
+    if(Number(numeroParaAdvinhar)!==502){
+        limpaDigitos()
+        desenhaDigito()
+        iniciaJogo()
+    }
+    else{
+        const {mensagem , cor} = resultados.error
+        desenhaNumero(numeroParaAdvinhar, cor)
+        escreveMensagem(mensagem, cor)
+        habilitaNovaPartida()
+        desabilitaBotaoEnviar()
+        desabilitaInput()
+    }
+
+    inputTeste.value = ''
+
 }
