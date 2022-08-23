@@ -64,6 +64,9 @@ h1{
 #nova-partida-botao{
     display: none;
 
+    align-items: center;
+
+    padding: 5px;
     height: 100%;
     width: 100%;
 
@@ -74,10 +77,15 @@ h1{
     line-height: 14px;
     border: none;
     
+    
     background: linear-gradient(180deg, #434854 0%, #9E9E9E 100%);
     border-radius: 4px;
 
     color: #FFFFFF;     
+}
+#nova-partida-botao>span{
+    margin-right: 3px;
+    margin: auto;
 }
 #entrada-de-dados{
     height: 42px;

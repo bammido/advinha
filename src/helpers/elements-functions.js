@@ -1,4 +1,20 @@
 //funções que mexem com elementos
+function pegaAdvinhacao() {
+    return `${Number(document.getElementById('input').value)}`
+}
+
+function desenhaNumero (entrada, cor) {
+
+    const numeros = `${entrada}`.split('')
+    
+    
+    for(let numero of numeros){
+        desenhaDigito(numero, cor)
+    }
+    
+    document.getElementById('input').value = ''
+}
+
 function desenhaDigito(entrada, cor) {
     const numeroEntrada = entrada? entrada : '0'
    
@@ -39,7 +55,7 @@ function escreveMensagem(msg, cor){
 
 function habilitaNovaPartida(){
     const novaPartidaBotao = document.getElementById('nova-partida-botao')
-    novaPartidaBotao.style.display = 'initial'
+    novaPartidaBotao.style.display = 'flex'
     
 }
 
