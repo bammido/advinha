@@ -387,6 +387,27 @@ describe('testando jogo caso a requisição de certo!!', () => {
 
         novaPartida.should('be.visible')
     })
+
+    it('ao enviar o numero correto verifica e clicar no botao "nova-partida-botao", uma nova partida é iniciada',()=>{
+        const novaPartida = cy.get("#nova-partida-botao")
+        
+        const input = cy.get('#input')
+        const enviar = cy.get('#enviar')
+
+        input.type(numeroParaAdvinhar)
+        enviar.click()
+
+        novaPartida.click()
+
+        novaPartida.should('not.be.visible')
+
+        const digitos = cy.get('.digito')
+
+        digitos.should('have.length', 1)
+
+        digitos.invoke('attr', 'name').then( name => expect(name).to.includes('digito0'))
+
+    })
   })
 
   
