@@ -79,6 +79,7 @@ function limpaInput () {
 }
 
 function iniciaJogo(){
+    escreveMensagem('')
     const botaoEnviar = document.getElementById('enviar')
     botaoEnviar.disabled  = false  
 
