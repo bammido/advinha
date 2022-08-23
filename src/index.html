@@ -7,222 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
-    <title>Document</title>
+    
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./display.css">
+    
+    <title>QUAL É O NÚMERO?</title>
+    
+    <script defer src="./helpers/helpers.js"></script>
+    <script defer src="./helpers/elements-functions.js"></script>
+    <script defer src="./helpers/verificacoes.js"></script>
     <script defer src="./script.js"></script>
-    <style>
-        *{
-            padding: 0;
-            margin: 0;
-        }
-        body{
-            width: 100%;
-            min-height: 1vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        button{
-            cursor: pointer;
-        }
-        *:disabled{
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        section{
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1{
-            transition: 500ms;
-
-            font-family: 'Montserrat';
-            font-size: 36px;
-            line-height: 44px;
-            text-align: center;
-            font-style: normal;
-            font-weight: 700;
-            letter-spacing: -1px;
-
-            
-            margin-top: 45px;
-            margin-bottom: 90px;
-
-            background: linear-gradient(174.92deg, #EF6C00 18.47%, #DB6300 36.57%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-
-            
-
-        }
-        #resultado{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 75px;
-        }
-        #mensagem{
-            margin-right: 30px;
-            height: 35px;
-        }
-        #mensagem span{
-            font-family: 'Montserrat';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 20px;
-            text-align: center;
-
-            color: #32BF00;
-        }
-        #numero {
-            margin-bottom: 50px;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            height: 100px;
-            
-        }
-        #nova-partida{
-            height: 42px;
-            width: 130px;
-            margin-right: 30px;
-        }
-        #nova-partida-botao{
-            display: none;
-
-            height: 100%;
-            width: 100%;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 12px;
-            line-height: 14px;
-            border: none;
-            
-            background: linear-gradient(180deg, #434854 0%, #9E9E9E 100%);
-            border-radius: 4px;
-
-            color: #FFFFFF;     
-        }
-        #entrada-de-dados{
-            height: 42px;
-            width: 298px;
-
-            border-radius: 4px;
-            display: flex;
-
-        }
-        #input{
-            width: 217px;
-            height: 42px;
-
-            background: #F5F5F5;
-            border: 1px solid #FF6600;
-            border-radius: 4px;
-
-            transition: 200ms;
-
-            padding-left: 32px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            
-            /* identical to box height */
-            line-height: 14px;
-            
-            color: #9E9E9E;
-
-            margin-right: 11px;
-        }
-        #input:focus{
-            transition: 200ms;
-            background: #FFFFFF;
-        }
-        #enviar{
-            width: 70px;
-            height: 42px;
-
-            background: linear-gradient(180deg, #EF6C00 0%, #C0661C 100%);
-            border-radius: 4px;
-            border: none;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 12px;
-            line-height: 14px;
-
-            color: #FFFFFF;
-        }
-        @media screen and (max-width: 450px){
-                h1{
-                transition: 500ms;
-                font-size: 24px;
-                line-height: 29px;
-                }
-        }
-        .digito{
-            margin-right: 30px;
-            position: relative;
-            height: 100%;
-        }
-
-        .led{
-            background-color: lightgray;
-            height: 15px;
-            width: 50px;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-        }
-        #led0{
-        }
-        #led1{
-            position: absolute;
-            left: -28px;
-            top: 21px;
-            transform: rotate(-90deg);
-
-        }
-        #led2{
-            position: absolute;
-            transform: rotate(90deg);
-            right: -28px;
-            top: 21px;
-        }
-        #led3{
-            border-radius: 55px;
-            position: absolute;
-            top: 48px;
-
-        }
-        #led4{
-            transform: rotate(-90deg);
-            position: absolute;
-            top: 75px;
-            left: -28px;
-        }
-        #led5{
-            transform: rotate(90deg);
-            position: absolute;
-            top: 75px;
-            right: -28px;
-
-        }
-        #led6{
-            position: absolute;
-            transform: rotate(180deg);
-            bottom: -13px;
-
-        }
-        
-    </style>
 </head>
 <body>
     <section>
@@ -236,10 +31,15 @@
                 <button id="nova-partida-botao" onclick="novaPartida()">NOVA PARTIDA</button>
             </div>
         </div>
-        <form onsubmit="form(event)" id="entrada-de-dados">
-            <input disabled required pattern="[0-9]{1,3}" title="digite um número positivo não nulo menor que 300" type="text" id="input" placeholder="digite o palpite" autofocus>
+        <form onsubmit="enviaAdvinhacao(event)" id="entrada-de-dados">
+            <input disabled required pattern="[0-9]{1,3}" title="digite um número positivo não nulo menor que 300, sem espaços" type="text" id="input" placeholder="digite o palpite" autofocus>
             <button disabled type="submit" id="enviar" >ENVIAR</button>
         </form>
+        <div id="teste">
+            <span>MODO TESTE</span>
+            <input id="input-teste">
+            <button id="botao-teste" onclick="modoTeste()">enviar teste</button>
+        </div>
     </section>
 </body>
 </html>

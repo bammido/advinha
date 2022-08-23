@@ -1,0 +1,57 @@
+.digito{
+    margin-right: 30px;
+    position: relative;
+    height: 100%;
+}
+
+.led{
+    background-color: lightgray;
+    height: 15px;
+    width: 50px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+#led0{
+}
+#led1{
+    position: absolute;
+    left: -28px;
+    top: 21px;
+    transform: rotate(-90deg);
+
+}
+#led2{
+    position: absolute;
+    transform: rotate(90deg);
+    right: -28px;
+    top: 21px;
+}
+#led3{
+    border-radius: 55px;
+    position: absolute;
+    top: 48px;
+
+}
+#led4{
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 75px;
+    left: -28px;
+}
+#led5{
+    transform: rotate(90deg);
+    position: absolute;
+    top: 75px;
+    right: -28px;
+
+}
+#led6{
+    position: absolute;
+    transform: rotate(180deg);
+    bottom: -13px;
+
+}
+
+#teste{
+    display: none;
+}
