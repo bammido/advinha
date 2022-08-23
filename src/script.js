@@ -7,7 +7,6 @@ window.addEventListener('load', async() => {
 function carregaJogo (){
     iniciaJogo()
     desenhaDigito()
-    
 }
 
 function Erro () {
