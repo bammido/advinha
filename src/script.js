@@ -59,12 +59,10 @@ async function carregaJogo (){
     }
     iniciaJogo()
     desenhaDigito()
-    //colocando numero para testar
-    const numero = document.getElementById('numero')
-    numero.dataset.teste = `${numeroParaAdvinhar}`
+   
 }
 
-function form (e) {
+function enviaAdvinhacao (e) {
     e.preventDefault()
 
     console.log(numeroParaAdvinhar)
@@ -104,7 +102,7 @@ function desenhaDigito(entrada, cor) {
 
 function desenhaNumero (entrada, cor) {
 
-    const numeros = entrada
+    const numeros = `${entrada}`.split('')
     
     
     for(let numero of numeros){
@@ -196,6 +194,11 @@ function desabilitaInput(){
 function novaPartida(){
     limpaDigitos()
     carregaJogo()
+    desabilitaNovaPartida()
+}
+function desabilitaNovaPartida(){
+    const novaPartida = document.getElementById('nova-partida-botao')
+    novaPartida.style.display = 'none'
 }
 function iniciaJogo(){
     const botaoEnviar = document.getElementById('enviar')
@@ -216,6 +219,7 @@ function modoTeste () {
     }
     else{
         const {mensagem , cor} = resultados.error
+        limpaDigitos()
         desenhaNumero(numeroParaAdvinhar, cor)
         escreveMensagem(mensagem, cor)
         habilitaNovaPartida()

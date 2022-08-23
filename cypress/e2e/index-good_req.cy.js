@@ -4,7 +4,7 @@ const cores = {
     inicial: 'rgb(0, 0, 0)',
     ledApagado: 'lightblue',
     errou: 'rgb(0, 0, 0)',
-    acertou: '#32BF00',
+    acertou: 'rgb(50, 191, 0)',
 }
 
 const numerosDigitais = [
@@ -208,8 +208,10 @@ describe('testando jogo caso a requisição de certo!!', () => {
         const { inicial, ledApagado } = cores
         const digitoInicial = cy.get('.digito')
 
+        
         digitoInicial.then( digDiv =>{
             const digito = Number(digDiv[0].attributes[1].value.split('digito')[1])
+
 
             const {ids} = numerosDigitais.find( ({numero}) => numero === digito)
 
@@ -220,156 +222,172 @@ describe('testando jogo caso a requisição de certo!!', () => {
                 const id = Number(attributes[1].value.split('led')[1])
                 const style = attributes['style']
                 const bg = style.value
-    
-                console.log(id)
-    
+        
                 ids.includes(id)? expect(bg).to.includes(inicial) : expect(bg).to.includes(ledApagado)
             })
         })
     })
 
-    it('ao enviar valor diferente do número correto verifica se os leds acesos do dígito estão na cor preta ( rgb(0, 0, 0) ) e leds apagados na cor lightblue',()=>{
+    it('ao enviar valor diferente do número correto verifica se os leds acesos dos dígitos estão na cor preta ( rgb(0, 0, 0) ) e leds apagados na cor lightblue',()=>{
 
         const { errou, ledApagado } = cores
+
+        const numeroMaior = `${numeroParaAdvinhar + 1}`
+        const numeroMenor = `${numeroParaAdvinhar + 1}`
 
         const input = cy.get('#input')
         const enviar = cy.get('#enviar')
 
-        input.type(`${numeroParaAdvinhar + 1}`)
+        input.type(numeroMaior)
         enviar.click()
 
-        cy.get('.digito').each( digDiv =>{
+        let digitos = cy.get(".digito")
 
-            // const digito = digDiv.children()
-            const numDigito = Number(digDiv[0].attributes[1].value.split('digito')[1])
-            
-            // console.log(digito)
-            
-            const {ids} = numerosDigitais.find( ({numero}) => numero === numDigito)
+        digitos.each( digDiv =>{
 
-            const leds = digDiv.children()
+            const digito = Number(digDiv[0].attributes[1].value.split('digito')[1])
+        
+            const {ids} = numerosDigitais.find( ({numero}) => numero === digito)
+
+            const leds = cy.wrap(digDiv).children()
 
             leds.each( led =>{
                 const attributes = led[0].attributes
                 const id = Number(attributes[1].value.split('led')[1])
                 const style = attributes['style']
                 const bg = style.value
-    
-                console.log(id)
-    
+        
                 ids.includes(id)? expect(bg).to.includes(errou) : expect(bg).to.includes(ledApagado)
             })
-            
+        })
+
+        input.type(numeroMenor)
+        enviar.click()      
+        
+        digitos = cy.get(".digito")
+        
+        digitos.each( digDiv =>{
+
+            const digito = Number(digDiv[0].attributes[1].value.split('digito')[1])
+        
+            const {ids} = numerosDigitais.find( ({numero}) => numero === digito)
+
+            const leds = cy.wrap(digDiv).children()
+
+            leds.each( led =>{
+                const attributes = led[0].attributes
+                const id = Number(attributes[1].value.split('led')[1])
+                const style = attributes['style']
+                const bg = style.value
+        
+                ids.includes(id)? expect(bg).to.includes(errou) : expect(bg).to.includes(ledApagado)
+            })
+        })
+    })
+    it('ao enviar valor do número correto verifica se os leds acesos dos dígitos estão na cor verde ( rgb(50, 191, 0) e leds apagados na cor lightblue',()=>{
+
+        const { acertou, ledApagado } = cores
+
+        const input = cy.get('#input')
+        const enviar = cy.get('#enviar')
+
+        input.type(numeroParaAdvinhar)
+        enviar.click()
+
+        let digitos = cy.get(".digito")
+
+        digitos.each( digDiv =>{
+
+            const digito = Number(digDiv[0].attributes[1].value.split('digito')[1])
+        
+            const {ids} = numerosDigitais.find( ({numero}) => numero === digito)
+
+            const leds = cy.wrap(digDiv).children()
+
+            leds.each( led =>{
+                const attributes = led[0].attributes
+                const id = Number(attributes[1].value.split('led')[1])
+                const style = attributes['style']
+                const bg = style.value
+        
+                ids.includes(id)? expect(bg).to.includes(acertou) : expect(bg).to.includes(ledApagado)
+            })
+        })
+    })
+
+    it('ao enviar valores diferentes do número correto verifica se as mensagens exibidas aparecem na cor preta ( rgb(0, 0, 0))',()=>{
+        
+        let mensagem = cy.get('#mensagem-span')
+        
+        const { errou } = cores
+
+        const numeroMaior = `${numeroParaAdvinhar + 1}`
+        const numeroMenor = `${numeroParaAdvinhar + 1}`
+
+        const input = cy.get('#input')
+        const enviar = cy.get('#enviar')
+
+        input.type(numeroMaior)
+        enviar.click()
+
+        mensagem.then( msg => {
+            const style = msg[0].attributes['style']
+            const color = style.value
+            expect(color).to.includes(errou)
+        })
+
+        input.type(numeroMenor)
+        enviar.click()
+
+        mensagem = cy.get('#mensagem-span')
+
+        mensagem.then( msg => {
+            const style = msg[0].attributes['style']
+            const color = style.value
+            expect(color).to.includes(errou)
+        })
+
+    })
+
+    it('ao enviar valore do número correto verifica se as mensagem exibida aparece na cor verde ( rgb(50, 191, 0))',()=>{
+        
+        let mensagem = cy.get('#mensagem-span')
+        
+        const { acertou } = cores
+
+        const input = cy.get('#input')
+        const enviar = cy.get('#enviar')
+
+        input.type(numeroParaAdvinhar)
+        enviar.click()
+
+        mensagem.then( msg => {
+            const style = msg[0].attributes['style']
+            const color = style.value
+            expect(color).to.includes(acertou)
         })
 
 
-        input.type(`${numeroParaAdvinhar - 1}`)
-        enviar.click()
     })
 
-    // it('digita "1", "11", "111" e verifica se foi exibido em caso a request não dê erro', ()=>{
-    //     const input = cy.get('#input')
-    //     const enviar = cy.get('button[id*="enviar"]')
+    it('ao carregar a pagina verifica se o botao "nova-partida-botao" não é exibido',()=>{
+        const novaPartida = cy.get("#nova-partida-botao")
 
-    //     input.then( inp => {
-    //         if(inp[0].disabled){
-    //             cy.reload()
-    //             cy.wait(1000)
-    //         }
+        novaPartida.should('not.be.visible')
+    })
 
-    //         input.type('1')
-    //         enviar.click()
-
-    //         const digito1 = cy.get('div[name="digito1"]')
-
-    //         digito1.should('have.length', 1)
-
-    //         input.type('11')
-    //         enviar.click()
-
-    //         const digitos11 = cy.get('div[name="digito1"]')
-
-    //         digitos11.should('have.length', 2)
-
-    //     })
-    // })
-    
-    // it('verifica se a mensagem é corretamente exibida',()=>{
+    it('ao enviar o numero correto verifica se o botao "nova-partida-botao" é exibido',()=>{
+        const novaPartida = cy.get("#nova-partida-botao")
         
-    //     const mensagem = cy.get("div[id*='mensagem']")
-    //     const numero = cy.get('#numero')
-    //     const input = cy.get('#input')
-    //     const enviar = cy.get('button[id*="enviar"]')
-        
-    //     input.then(inp =>{
+        const input = cy.get('#input')
+        const enviar = cy.get('#enviar')
 
-    //         // verifica se a requisição deu erro
-    //         if(inp[0].disabled){
-                
-    //             //deve exibir 'Error' com mensagem
-    //             mensagem.then((value)=>{
-    //                 expect(value[0].innerText).to.be.eq('Erro')
-    //             } )
-    //         }
-    //         else{
-    //             numero.then( num =>{
-    //                 const numeroParaAdvinhar = Number(num[0].dataset.teste) //pega numero gerado
+        input.type(numeroParaAdvinhar)
+        enviar.click()
 
-    //                 input.type(`${numeroParaAdvinhar - 1}`) // digita um valor menor
-    //                 enviar.click()
-
-    //                 mensagem.then((value)=>{
-    //                     //deve exibir 'É maior' com mensagem
-    //                     expect(value[0].innerText).to.be.eq('É maior')  
-    //                 } )
-
-    //                 input.type(`${numeroParaAdvinhar + 1}`) // digita um valor maior
-    //                 enviar.click()
-
-    //                 mensagem.then((value)=>{
-    //                     //deve exibir 'É menor' com mensagem
-    //                     expect(value[0].innerText).to.be.eq('É menor')   
-    //                 } )
-
-    //                 input.type(`${numeroParaAdvinhar}`) // digita o numero certo
-    //                 enviar.click()
-
-    //                 mensagem.then((value)=>{
-    //                     //deve exibir 'É menor' com mensagem
-    //                     expect(value[0].innerText).to.be.eq('Você acertou!!!')
-    //                 } )
-    //             })
-                
-    //         }
-    //     })
-    // })
-    // it('vreifica se o botão "enviar" e o input estão desabilitados quando há erro ou quando o numero é acertado',()=>{
-    //     const numero = cy.get('#numero')
-    //     const input = cy.get('#input')
-    //     const enviar = cy.get('button[id*="enviar"]')
-
-    //     input.then( inp =>{
-    //         if(inp[0].disabled){
-    //             enviar.should('be.disabled')
-    //             input.should('be.disabled')
-    //         }
-    //         else{
-    //             numero.then( num =>{
-    //                 const numeroParaAdvinhar = Number(num[0].dataset.teste) //pega numero gerado
-                    
-    //                 input.should('not.be.disabled')
-    //                 enviar.should('not.be.disabled')
-
-    //                 input.type(`${numeroParaAdvinhar}`)
-    //                 enviar.click()
-
-    //                 input.should('be.disabled')
-    //                 enviar.should('be.disabled')
-
-    //             })
-    //         }
-    //     })
-        
-    // })
+        novaPartida.should('be.visible')
+    })
   })
+
+  
 
