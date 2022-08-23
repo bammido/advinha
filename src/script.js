@@ -1,24 +1,23 @@
 
-window.addEventListener('load', () => carregaJogo() )
-
-async function carregaJogo (){
+window.addEventListener('load', async() => {
     numeroParaAdvinhar = await pegaNumeroParaAdvinhar().then( res => res.value? res.value : res)
-    
-    // caso bad request
-    if(numeroParaAdvinhar.StatusCode){
-        const {mensagem , cor} = resultados.error
-        desenhaNumero(`${numeroParaAdvinhar.StatusCode}`, cor)
-        escreveMensagem(mensagem, cor)
-        habilitaNovaPartida()
-        desabilitaBotaoEnviar()
-        desabilitaInput()
-        return false
-    }
+    numeroParaAdvinhar.StatusCode? Erro() : carregaJogo()
+} )
 
-    // caso good request
+function carregaJogo (){
     iniciaJogo()
     desenhaDigito()
     
+}
+
+function Erro () {
+    const {mensagem , cor} = resultados.error
+    desenhaNumero(`${numeroParaAdvinhar.StatusCode}`, cor)
+    escreveMensagem(mensagem, cor)
+    habilitaNovaPartida()
+    desabilitaBotaoEnviar()
+    desabilitaInput()
+    return false
 }
 
 async function pegaNumeroParaAdvinhar()  {
@@ -45,22 +44,6 @@ function enviaAdvinhacao (e) {
     
     escreveMensagem(mensagem , cor)
     desenhaNumero(numero, cor)
-}
-
-function pegaAdvinhacao() {
-    return `${Number(document.getElementById('input').value)}`
-}
-
-function desenhaNumero (entrada, cor) {
-
-    const numeros = `${entrada}`.split('')
-    
-    
-    for(let numero of numeros){
-        desenhaDigito(numero, cor)
-    }
-    
-    document.getElementById('input').value = ''
 }
 
 function novaPartida(){
